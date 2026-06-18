@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Juan Felipe — Dev de soluções com IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #06080c; }
+    a { text-decoration: none; }
+    ::selection { background: #22d3ee; color: #06080c; }
+
+    :root { --ac: #22d3ee; --ac2: #34d399; }
+
+    @keyframes blink    { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    @keyframes gridpulse{ 0%,100%{opacity:.5} 50%{opacity:.85} }
+    @keyframes floaty   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes scan     { 0%{transform:translateY(-100%)} 100%{transform:translateY(2200%)} }
+    @keyframes spinring { to{transform:rotate(360deg)} }
+
+    .nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; color: #7d8896;
+      transition: color 0.15s;
+    }
+    .nav-link:hover { color: #e6edf3; }
+
+    .btn-hire {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500;
+      color: #06080c; background: var(--ac); padding: 9px 16px; border-radius: 7px;
+      box-shadow: 0 0 20px color-mix(in srgb, var(--ac) 45%, transparent);
+      transition: transform 0.15s;
+    }
+    .btn-hire:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;
+      color: #06080c; background: var(--ac); padding: 14px 24px; border-radius: 9px;
+      box-shadow: 0 0 28px color-mix(in srgb, var(--ac) 40%, transparent);
+      transition: transform 0.15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;
+      color: #e6edf3; background: transparent; padding: 14px 24px; border-radius: 9px;
+      border: 1px solid rgba(255,255,255,0.16);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--ac); color: var(--ac); }
+
+    .project-card {
+      position: relative; border: 1px solid rgba(255,255,255,0.09); border-radius: 16px;
+      background: linear-gradient(180deg, #0c1118, #080b10); padding: 26px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover {
+      border-color: color-mix(in srgb, var(--ac) 55%, transparent);
+      transform: translateY(-4px);
+    }
+
+    .btn-contact {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;
+      color: #06080c; background: var(--ac); padding: 15px 28px; border-radius: 10px;
+      box-shadow: 0 0 30px color-mix(in srgb, var(--ac) 45%, transparent);
+      transition: transform 0.15s;
+    }
+    .btn-contact:hover { transform: translateY(-2px); }
+
+    .btn-top {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: 'JetBrains Mono', monospace; font-size: 14px;
+      color: #e6edf3; padding: 15px 24px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-top:hover { border-color: var(--ac); color: var(--ac); }
+  </style>
+</head>
+<body>
+<div style="position:relative; min-height:100vh; background:#06080c; color:#e6edf3; font-family:'Space Grotesk',sans-serif; overflow:hidden;">
+
+  <!-- ambient grid -->
+  <div style="position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:linear-gradient(rgba(34,211,238,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,0.05) 1px,transparent 1px);
+    background-size:48px 48px; animation:gridpulse 8s ease-in-out infinite;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 100%);
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 100%);"></div>
+
+  <!-- top glow -->
+  <div style="position:fixed; top:-200px; left:50%; transform:translateX(-50%); width:900px; height:600px;
+    pointer-events:none; z-index:0;
+    background:radial-gradient(circle, color-mix(in srgb,var(--ac) 22%,transparent) 0%, transparent 68%);
+    filter:blur(40px);"></div>
+
+  <!-- NAV -->
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+    padding:20px 40px; backdrop-filter:blur(12px); background:rgba(6,8,12,0.6);
+    border-bottom:1px solid rgba(255,255,255,0.06);">
+    <a href="#top" style="display:flex; align-items:center; gap:10px;
+      font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px; color:#e6edf3;">
+      <span style="display:inline-flex; align-items:center; justify-content:center;
+        width:30px; height:30px; border:1px solid var(--ac); border-radius:6px; color:var(--ac);
+        box-shadow:0 0 14px color-mix(in srgb,var(--ac) 40%,transparent);">JF</span>
+      <span>juanfelipe<span style="color:var(--ac)">.ia</span></span>
+    </a>
+    <div style="display:flex; align-items:center; gap:32px;">
+      <a href="#sobre"     class="nav-link">sobre_mim</a>
+      <a href="#proyectos" class="nav-link">projetos</a>
+      <a href="#stack"     class="nav-link">stack</a>
+      <a href="#contacto"  class="btn-hire">contratar →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" style="position:relative; z-index:1; max-width:1200px; margin:0 auto;
+    padding:90px 40px 70px; display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:center;">
+
+    <div>
+      <!-- badge disponível -->
+      <div style="display:inline-flex; align-items:center; gap:9px;
+        font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.08em;
+        color:var(--ac2); border:1px solid color-mix(in srgb,var(--ac2) 35%,transparent);
+        background:color-mix(in srgb,var(--ac2) 10%,transparent);
+        padding:6px 13px; border-radius:100px; margin-bottom:28px;">
+        <span style="width:7px; height:7px; border-radius:50%; background:var(--ac2);
+          box-shadow:0 0 10px var(--ac2);"></span>
+        DISPONÍVEL PARA TRABALHAR
+      </div>
+
+      <h1 style="margin:0 0 18px; font-size:clamp(38px,5.2vw,68px); line-height:1.02;
+        font-weight:700; letter-spacing:-0.02em;">
+        Juan Felipe<br>
+        <span style="color:var(--ac); text-shadow:0 0 32px color-mix(in srgb,var(--ac) 55%,transparent);">
+          desenvolve com IA
+        </span>
+      </h1>
+
+      <p style="margin:0 0 36px; max-width:480px; font-size:18px; line-height:1.6; color:#9aa6b2;">
+        Desenvolvedor de sistemas desde 2021. Crio aplicações para desktop, web e mobile,
+        e desenvolvo soluções potencializadas com IA que transformam ideias em produtos que funcionam.
+      </p>
+
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="#proyectos" class="btn-primary">ver projetos →</a>
+        <a href="#contacto"  class="btn-outline">vamos conversar</a>
+      </div>
+    </div>
+
+    <!-- terminal -->
+    <div style="animation:floaty 7s ease-in-out infinite;">
+      <div style="position:relative; border:1px solid rgba(255,255,255,0.1); border-radius:14px;
+        background:rgba(10,14,20,0.85);
+        box-shadow:0 30px 80px rgba(0,0,0,0.6),
+          0 0 0 1px color-mix(in srgb,var(--ac) 12%,transparent),
+          0 0 60px color-mix(in srgb,var(--ac) 18%,transparent);
+        overflow:hidden;">
+        <!-- scan line -->
+        <div style="position:absolute; left:0; right:0; top:0; height:40px;
+          background:linear-gradient(180deg,color-mix(in srgb,var(--ac) 16%,transparent),transparent);
+          animation:scan 4.5s linear infinite; pointer-events:none;"></div>
+        <!-- title bar -->
+        <div style="display:flex; align-items:center; gap:8px; padding:13px 16px;
+          border-bottom:1px solid rgba(255,255,255,0.07);">
+          <span style="width:11px; height:11px; border-radius:50%; background:#ff5f57;"></span>
+          <span style="width:11px; height:11px; border-radius:50%; background:#febc2e;"></span>
+          <span style="width:11px; height:11px; border-radius:50%; background:#28c840;"></span>
+          <span style="margin-left:10px; font-family:'JetBrains Mono',monospace; font-size:12px; color:#5b6673;">
+            ~/juanfelipe — zsh
+          </span>
+        </div>
+        <!-- body -->
+        <div id="terminal-body" style="padding:20px; font-family:'JetBrains Mono',monospace;
+          font-size:13.5px; line-height:1.9; min-height:228px;"></div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- STATS STRIP -->
+  <section style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 40px 90px;">
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.07);
+      border-radius:14px; overflow:hidden;">
+      <div style="background:#080b10; padding:28px 24px;">
+        <div style="font-size:34px; font-weight:700; color:var(--ac);">+30</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#7d8896; margin-top:4px;">soluções entregues</div>
+      </div>
+      <div style="background:#080b10; padding:28px 24px;">
+        <div style="font-size:34px; font-weight:700; color:var(--ac);">desde 2021</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#7d8896; margin-top:4px;">desenvolvendo sistemas</div>
+      </div>
+      <div style="background:#080b10; padding:28px 24px;">
+        <div style="font-size:34px; font-weight:700; color:var(--ac);">Desktop · Web · Mobile</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#7d8896; margin-top:4px;">plataformas</div>
+      </div>
+      <div style="background:#080b10; padding:28px 24px;">
+        <div style="font-size:34px; font-weight:700; color:var(--ac);">Remoto</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#7d8896; margin-top:4px;">modalidade</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MIM -->
+  <section id="sobre" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:30px 40px 90px;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:14px;">
+      // 01 — sobre_mim
+    </div>
+    <div style="display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:center;">
+
+      <!-- avatar -->
+      <div style="position:relative; width:300px; height:300px; display:flex; align-items:center; justify-content:center;">
+        <div style="position:absolute; inset:0; border-radius:50%;
+          background:conic-gradient(from 0deg, var(--ac), var(--ac2), transparent, var(--ac));
+          animation:spinring 12s linear infinite; filter:blur(2px); opacity:.7;"></div>
+        <div style="position:absolute; inset:6px; border-radius:50%; background:#06080c;"></div>
+        <div style="position:absolute; inset:0; border-radius:50%;
+          box-shadow:0 0 60px color-mix(in srgb,var(--ac) 35%,transparent);"></div>
+        <img src="assets/juan-felipe.png" alt="Juan Felipe"
+          style="position:relative; width:270px; height:270px; border-radius:50%;
+            object-fit:cover; object-position:center top; background:#0c1118;
+            border:1px solid color-mix(in srgb,var(--ac) 40%,transparent);">
+      </div>
+
+      <!-- texto -->
+      <div>
+        <h2 style="margin:0 0 22px; font-size:clamp(26px,3.2vw,40px); line-height:1.18;
+          font-weight:600; letter-spacing:-0.01em;">
+          Transformo IA em <span style="color:var(--ac)">produtos reais</span>
+          que resolvem problemas de negócio.
+        </h2>
+        <div style="font-size:17px; line-height:1.7; color:#9aa6b2; max-width:560px;">
+          <p style="margin:0 0 16px;">
+            Desenvolvedor de sistemas desde 2021: crio aplicações desktop, sites web e apps mobile.
+            Atuo de ponta a ponta — entendo o problema, desenho a arquitetura, integro os modelos
+            e coloco em produção com interfaces que as pessoas gostam de usar.
+          </p>
+          <p style="margin:0;">
+            Sou obcecado por progresso técnico — mas ainda mais pelo impacto mensurável.
+            Cada projeto é medido em tempo economizado, custos reduzidos ou decisões melhores.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section id="proyectos" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:30px 40px 90px;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:14px;">
+      // 02 — projetos_destacados
+    </div>
+    <h2 style="margin:0 0 40px; font-size:clamp(28px,3.4vw,42px); font-weight:600; letter-spacing:-0.01em;">
+      Soluções que construí
+    </h2>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+
+      <div class="project-card">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#3a4452; margin-bottom:18px;">01</div>
+        <div style="display:inline-flex; font-family:'JetBrains Mono',monospace; font-size:11px;
+          color:var(--ac2); border:1px solid color-mix(in srgb,var(--ac2) 30%,transparent);
+          padding:3px 9px; border-radius:6px; margin-bottom:16px;">Cliente · Mafreia</div>
+        <h3 style="margin:0 0 10px; font-size:21px; font-weight:600;">HIVE ERP</h3>
+        <p style="margin:0 0 18px; font-size:14.5px; line-height:1.6; color:#8b97a4;">
+          Sistema ERP usado pela Mafreia (materiais de construção) para gerenciar o estoque
+          e as operações do negócio de ponta a ponta.
+        </p>
+        <div style="display:flex; flex-wrap:wrap; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#6b7682;">
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">Gestão de estoque</span>
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">ERP</span>
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">Operações</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#3a4452; margin-bottom:18px;">02</div>
+        <div style="display:inline-flex; font-family:'JetBrains Mono',monospace; font-size:11px;
+          color:var(--ac2); border:1px solid color-mix(in srgb,var(--ac2) 30%,transparent);
+          padding:3px 9px; border-radius:6px; margin-bottom:16px;">Cliente · Hygeline</div>
+        <h3 style="margin:0 0 10px; font-size:21px; font-weight:600;">Dunamis WMS</h3>
+        <p style="margin:0 0 18px; font-size:14.5px; line-height:1.6; color:#8b97a4;">
+          Sistema de gerenciamento de armazém (WMS) usado pela Hygeline para controlar
+          e otimizar o processo de produção na planta.
+        </p>
+        <div style="display:flex; flex-wrap:wrap; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#6b7682;">
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">WMS</span>
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">Produção</span>
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">Logística</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#3a4452; margin-bottom:18px;">03</div>
+        <div style="display:inline-flex; font-family:'JetBrains Mono',monospace; font-size:11px;
+          color:var(--ac2); border:1px solid color-mix(in srgb,var(--ac2) 30%,transparent);
+          padding:3px 9px; border-radius:6px; margin-bottom:16px;">E-commerce</div>
+        <h3 style="margin:0 0 10px; font-size:21px; font-weight:600;">Integrações de loja</h3>
+        <p style="margin:0 0 18px; font-size:14.5px; line-height:1.6; color:#8b97a4;">
+          Integrações com plataformas de e-commerce como Loja Tray e Loja Integrada,
+          sincronizando catálogo, pedidos e estoque automaticamente.
+        </p>
+        <div style="display:flex; flex-wrap:wrap; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; color:#6b7682;">
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">Loja Tray</span>
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">Loja Integrada</span>
+          <span style="border:1px solid rgba(255,255,255,0.1); padding:4px 9px; border-radius:6px;">API</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:30px 40px 90px;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:14px;">
+      // 03 — stack_técnico
+    </div>
+    <h2 style="margin:0 0 40px; font-size:clamp(28px,3.4vw,42px); font-weight:600; letter-spacing:-0.01em;">
+      Ferramentas com que trabalho
+    </h2>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+      <div style="border:1px solid rgba(255,255,255,0.08); border-radius:14px; background:#080b10; padding:24px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ac); margin-bottom:16px;">linguagens</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:15px; color:#c3ccd6;">
+          <span>Python</span><span>TypeScript</span><span>SQL</span><span>Go</span>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.08); border-radius:14px; background:#080b10; padding:24px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ac); margin-bottom:16px;">ia / ml</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:15px; color:#c3ccd6;">
+          <span>LangChain / LlamaIndex</span><span>PyTorch</span><span>Hugging Face</span><span>Fine-tuning · RAG</span>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.08); border-radius:14px; background:#080b10; padding:24px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ac); margin-bottom:16px;">dados / infra</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:15px; color:#c3ccd6;">
+          <span>PostgreSQL / pgvector</span><span>Docker</span><span>AWS · GCP</span><span>FastAPI</span>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,0.08); border-radius:14px; background:#080b10; padding:24px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ac); margin-bottom:16px;">ferramentas</div>
+        <div style="display:flex; flex-direction:column; gap:11px; font-size:15px; color:#c3ccd6;">
+          <span>Git</span><span>n8n</span><span>React</span><span>Next.js</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contacto" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:40px 40px 110px;">
+    <div style="position:relative; border:1px solid color-mix(in srgb,var(--ac) 30%,transparent);
+      border-radius:20px;
+      background:radial-gradient(ellipse 120% 140% at 50% 0%, color-mix(in srgb,var(--ac) 14%,transparent), #080b10 60%);
+      padding:64px 40px; text-align:center; overflow:hidden;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:18px;">
+        // 04 — contato
+      </div>
+      <h2 style="margin:0 auto 18px; max-width:680px; font-size:clamp(30px,4vw,52px);
+        line-height:1.08; font-weight:700; letter-spacing:-0.02em;">
+        Vamos construir algo<br>com IA juntos?
+      </h2>
+      <p style="margin:0 auto 36px; max-width:460px; font-size:17px; line-height:1.6; color:#9aa6b2;">
+        Estou aberto a oportunidades de emprego e projetos. Conte-me o que você tem em mente.
+      </p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a href="mailto:juanfelipemaestregonzalez@gmail.com" class="btn-contact">
+          ✉ juanfelipemaestregonzalez@gmail.com
+        </a>
+        <a href="#top" class="btn-top">↑ voltar ao topo</a>
+      </div>
+    </div>
+
+    <div style="margin-top:48px; display:flex; align-items:center; justify-content:space-between;
+      padding-top:24px; border-top:1px solid rgba(255,255,255,0.06);
+      font-family:'JetBrains Mono',monospace; font-size:12px; color:#5b6673;">
+      <span>© 2026 Juan Felipe Maestre González</span>
+      <span>construído com IA, café e curiosidade</span>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const SCRIPT = [
+    { t: "whoami",                                                  cmd: true  },
+    { t: "Juan Felipe Maestre González — dev de soluções com IA",  cmd: false },
+    { t: "ls ./capacidades",                                        cmd: true  },
+    { t: "desktop  web  móvil  erp  wms  integraciones  ia",       cmd: false },
+    { t: "cat estado.txt",                                          cmd: true  },
+    { t: "● Disponível para novos projetos e emprego",              cmd: false },
+  ];
+
+  const body = document.getElementById('terminal-body');
+  let li = 0, ci = 0, timer;
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function makeLine(text, isCmd, withCursor) {
+    const div = document.createElement('div');
+    if (isCmd) {
+      div.innerHTML =
+        '<span style="color:var(--ac2)">➜</span> ' +
+        '<span style="color:var(--ac)">~</span> ' +
+        '<span style="color:#e6edf3">' + esc(text) + '</span>';
+    } else {
+      div.style.cssText = 'color:#8b97a4; padding-left:2px;';
+      div.textContent = text;
+    }
+    if (withCursor) {
+      const c = document.createElement('span');
+      c.style.cssText =
+        'display:inline-block; width:8px; height:16px; background:var(--ac);' +
+        'margin-left:2px; vertical-align:-3px; animation:blink 1s step-end infinite;';
+      div.appendChild(c);
+    }
+    return div;
+  }
+
+  function tick() {
+    if (li >= SCRIPT.length) {
+      const cur = body.querySelector('.cur');
+      if (cur) cur.remove();
+      return;
+    }
+    const line = SCRIPT[li];
+    ci++;
+    const partial = line.t.slice(0, ci);
+
+    const existing = body.querySelector('.cur');
+    if (existing) existing.remove();
+
+    const el = makeLine(partial, line.cmd, true);
+    el.classList.add('cur');
+    body.appendChild(el);
+
+    if (ci >= line.t.length) {
+      el.remove();
+      body.appendChild(makeLine(line.t, line.cmd, false));
+      li++; ci = 0;
+      timer = setTimeout(tick, 480);
+    } else {
+      timer = setTimeout(tick, line.cmd ? 55 : 22);
+    }
+  }
+
+  setTimeout(tick, 700);
+</script>
+</body>
+</html>
