@@ -22,6 +22,17 @@
     @keyframes scan     { 0%{transform:translateY(-100%)} 100%{transform:translateY(2200%)} }
     @keyframes spinring { to{transform:rotate(360deg)} }
 
+    /* ── NAV ── */
+    .nav-inner {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      backdrop-filter: blur(12px); background: rgba(6,8,12,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+    }
     .nav-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px; color: #7d8896;
@@ -29,6 +40,33 @@
     }
     .nav-link:hover { color: #e6edf3; }
 
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #e6edf3; border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* mobile menu drawer */
+    .nav-drawer {
+      display: none; position: fixed; top: 65px; left: 0; right: 0; z-index: 49;
+      flex-direction: column; gap: 4px;
+      background: rgba(6,8,12,0.97); backdrop-filter: blur(16px);
+      padding: 16px 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer .nav-link { font-size: 15px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-drawer .btn-hire { margin-top: 8px; justify-content: center; }
+
+    /* ── BUTTONS ── */
     .btn-hire {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500;
@@ -56,22 +94,12 @@
     }
     .btn-outline:hover { border-color: var(--ac); color: var(--ac); }
 
-    .project-card {
-      position: relative; border: 1px solid rgba(255,255,255,0.09); border-radius: 16px;
-      background: linear-gradient(180deg, #0c1118, #080b10); padding: 26px; overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .project-card:hover {
-      border-color: color-mix(in srgb, var(--ac) 55%, transparent);
-      transform: translateY(-4px);
-    }
-
     .btn-contact {
       display: inline-flex; align-items: center; gap: 9px;
       font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;
       color: #06080c; background: var(--ac); padding: 15px 28px; border-radius: 10px;
       box-shadow: 0 0 30px color-mix(in srgb, var(--ac) 45%, transparent);
-      transition: transform 0.15s;
+      transition: transform 0.15s; text-align: center;
     }
     .btn-contact:hover { transform: translateY(-2px); }
 
@@ -83,6 +111,113 @@
       transition: border-color 0.15s, color 0.15s;
     }
     .btn-top:hover { border-color: var(--ac); color: var(--ac); }
+
+    /* ── LAYOUT GRIDS ── */
+    .hero-grid {
+      position: relative; z-index: 1; max-width: 1200px; margin: 0 auto;
+      padding: 90px 40px 70px;
+      display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center;
+    }
+    .stats-section {
+      position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 40px 90px;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; overflow: hidden;
+    }
+    .section-base {
+      position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 30px 40px 90px;
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 300px 1fr; gap: 56px; align-items: center;
+    }
+    .avatar-wrap {
+      position: relative; width: 300px; height: 300px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+    }
+    .stack-grid {
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 20px;
+    }
+    .contact-section {
+      position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 40px 40px 110px;
+    }
+    .footer-bar {
+      margin-top: 48px; display: flex; align-items: center; justify-content: space-between;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06);
+      font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5b6673;
+    }
+
+    /* ── PROJECT CARD ── */
+    .project-card {
+      position: relative; border: 1px solid rgba(255,255,255,0.09); border-radius: 16px;
+      background: linear-gradient(180deg, #0c1118, #080b10); padding: 26px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover {
+      border-color: color-mix(in srgb, var(--ac) 55%, transparent);
+      transform: translateY(-4px);
+    }
+
+    /* ══════════════════════════════════════
+       TABLET  (≤ 1024px)
+    ══════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        padding: 60px 32px 50px;
+        gap: 40px;
+      }
+      .stats-section { padding: 0 32px 70px; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .section-base { padding: 30px 32px 70px; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .avatar-wrap { width: 220px; height: 220px; margin: 0 auto; }
+      .avatar-wrap img { width: 196px !important; height: 196px !important; }
+      .projects-grid { grid-template-columns: repeat(2,1fr); }
+      .stack-grid { grid-template-columns: repeat(2,1fr); }
+      .contact-section { padding: 30px 32px 90px; }
+    }
+
+    /* ══════════════════════════════════════
+       MOBILE  (≤ 768px)
+    ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .nav-inner { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero-grid { padding: 44px 20px 40px; gap: 32px; }
+      .stats-section { padding: 0 20px 60px; }
+      .section-base { padding: 24px 20px 60px; }
+
+      .about-grid { gap: 28px; }
+      .avatar-wrap { width: 180px; height: 180px; }
+      .avatar-wrap img { width: 160px !important; height: 160px !important; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+      .stack-grid { grid-template-columns: repeat(2,1fr); }
+
+      .contact-section { padding: 24px 20px 70px; }
+      .btn-contact { font-size: 12px; padding: 14px 18px; word-break: break-all; }
+      .footer-bar { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    /* ══════════════════════════════════════
+       SMALL MOBILE  (≤ 480px)
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stack-grid { grid-template-columns: 1fr 1fr; }
+      .hero-grid { padding: 36px 16px 32px; }
+      .stats-section { padding: 0 16px 50px; }
+      .section-base { padding: 20px 16px 50px; }
+      .contact-section { padding: 20px 16px 60px; }
+    }
   </style>
 </head>
 <body>
@@ -102,9 +237,7 @@
     filter:blur(40px);"></div>
 
   <!-- NAV -->
-  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
-    padding:20px 40px; backdrop-filter:blur(12px); background:rgba(6,8,12,0.6);
-    border-bottom:1px solid rgba(255,255,255,0.06);">
+  <nav class="nav-inner">
     <a href="#top" style="display:flex; align-items:center; gap:10px;
       font-family:'JetBrains Mono',monospace; font-weight:700; font-size:16px; color:#e6edf3;">
       <span style="display:inline-flex; align-items:center; justify-content:center;
@@ -112,17 +245,26 @@
         box-shadow:0 0 14px color-mix(in srgb,var(--ac) 40%,transparent);">JF</span>
       <span>juanfelipe<span style="color:var(--ac)">.ia</span></span>
     </a>
-    <div style="display:flex; align-items:center; gap:32px;">
+    <div class="nav-links">
       <a href="#sobre"     class="nav-link">sobre_mim</a>
       <a href="#proyectos" class="nav-link">projetos</a>
       <a href="#stack"     class="nav-link">stack</a>
       <a href="#contacto"  class="btn-hire">contratar →</a>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <!-- mobile drawer -->
+  <div class="nav-drawer" id="nav-drawer">
+    <a href="#sobre"     class="nav-link" onclick="closeMenu()">sobre_mim</a>
+    <a href="#proyectos" class="nav-link" onclick="closeMenu()">projetos</a>
+    <a href="#stack"     class="nav-link" onclick="closeMenu()">stack</a>
+    <a href="#contacto"  class="btn-hire" onclick="closeMenu()">contratar →</a>
+  </div>
 
   <!-- HERO -->
-  <header id="top" style="position:relative; z-index:1; max-width:1200px; margin:0 auto;
-    padding:90px 40px 70px; display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:center;">
+  <header id="top" class="hero-grid">
 
     <div>
       <!-- badge disponível -->
@@ -186,10 +328,8 @@
   </header>
 
   <!-- STATS STRIP -->
-  <section style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 40px 90px;">
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
-      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.07);
-      border-radius:14px; overflow:hidden;">
+  <section class="stats-section">
+    <div class="stats-grid">
       <div style="background:#080b10; padding:28px 24px;">
         <div style="font-size:34px; font-weight:700; color:var(--ac);">+30</div>
         <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#7d8896; margin-top:4px;">soluções entregues</div>
@@ -210,14 +350,14 @@
   </section>
 
   <!-- SOBRE MIM -->
-  <section id="sobre" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:30px 40px 90px;">
+  <section id="sobre" class="section-base">
     <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:14px;">
       // 01 — sobre_mim
     </div>
-    <div style="display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:center;">
+    <div class="about-grid">
 
       <!-- avatar -->
-      <div style="position:relative; width:300px; height:300px; display:flex; align-items:center; justify-content:center;">
+      <div class="avatar-wrap">
         <div style="position:absolute; inset:0; border-radius:50%;
           background:conic-gradient(from 0deg, var(--ac), var(--ac2), transparent, var(--ac));
           animation:spinring 12s linear infinite; filter:blur(2px); opacity:.7;"></div>
@@ -254,14 +394,14 @@
   </section>
 
   <!-- PROJETOS -->
-  <section id="proyectos" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:30px 40px 90px;">
+  <section id="proyectos" class="section-base">
     <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:14px;">
       // 02 — projetos_destacados
     </div>
     <h2 style="margin:0 0 40px; font-size:clamp(28px,3.4vw,42px); font-weight:600; letter-spacing:-0.01em;">
       Soluções que construí
     </h2>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+    <div class="projects-grid">
 
       <div class="project-card">
         <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#3a4452; margin-bottom:18px;">01</div>
@@ -318,14 +458,14 @@
   </section>
 
   <!-- STACK -->
-  <section id="stack" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:30px 40px 90px;">
+  <section id="stack" class="section-base">
     <div style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ac); margin-bottom:14px;">
       // 03 — stack_técnico
     </div>
     <h2 style="margin:0 0 40px; font-size:clamp(28px,3.4vw,42px); font-weight:600; letter-spacing:-0.01em;">
       Ferramentas com que trabalho
     </h2>
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+    <div class="stack-grid">
       <div style="border:1px solid rgba(255,255,255,0.08); border-radius:14px; background:#080b10; padding:24px;">
         <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ac); margin-bottom:16px;">linguagens</div>
         <div style="display:flex; flex-direction:column; gap:11px; font-size:15px; color:#c3ccd6;">
@@ -354,7 +494,7 @@
   </section>
 
   <!-- CONTATO -->
-  <section id="contacto" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:40px 40px 110px;">
+  <section id="contacto" class="contact-section">
     <div style="position:relative; border:1px solid color-mix(in srgb,var(--ac) 30%,transparent);
       border-radius:20px;
       background:radial-gradient(ellipse 120% 140% at 50% 0%, color-mix(in srgb,var(--ac) 14%,transparent), #080b10 60%);
@@ -377,9 +517,7 @@
       </div>
     </div>
 
-    <div style="margin-top:48px; display:flex; align-items:center; justify-content:space-between;
-      padding-top:24px; border-top:1px solid rgba(255,255,255,0.06);
-      font-family:'JetBrains Mono',monospace; font-size:12px; color:#5b6673;">
+    <div class="footer-bar">
       <span>© 2026 Juan Felipe Maestre González</span>
       <span>construído com IA, café e curiosidade</span>
     </div>
@@ -453,6 +591,22 @@
   }
 
   setTimeout(tick, 700);
+
+  // hamburger menu
+  const btn = document.getElementById('hamburger');
+  const drawer = document.getElementById('nav-drawer');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+  function closeMenu() {
+    btn.classList.remove('open');
+    drawer.classList.remove('open');
+  }
+  // close when clicking outside
+  document.addEventListener('click', e => {
+    if (!btn.contains(e.target) && !drawer.contains(e.target)) closeMenu();
+  });
 </script>
 </body>
 </html>
